@@ -1,5 +1,3 @@
-/* src/index.css */
-
 body {
   font-family: sans-serif;
   line-height: 1.5;
@@ -25,4 +23,5 @@ ol {
 img {
   display: block;
   max-width: 100%;
+  box-sizing: border-box;
 }

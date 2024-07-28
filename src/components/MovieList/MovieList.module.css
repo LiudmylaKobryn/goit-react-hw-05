@@ -1,17 +1,19 @@
 .moviesWrapper {
+  display: flex;
+  gap: 30px 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
   max-width: 1440px;
-  padding-top: 30px;
   margin: 0 auto;
 }
 
-.moviesList {
+.movieCard {
+  width: calc((100% - 60px) / 4);
   display: flex;
-  flex-wrap: wrap;
-  column-gap: 30px;
-  row-gap: 50px;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
-
-.moviesItem a {
-  text-decoration: none;
+.title {
+  font-size: 10px;
 }

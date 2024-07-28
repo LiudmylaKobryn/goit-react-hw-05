@@ -1,0 +1,10 @@
+.navLink {
+  text-decoration: none;
+  color: black;
+}
+
+.navContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

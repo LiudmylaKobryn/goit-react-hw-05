@@ -1,4 +1,3 @@
-// src/components/MoviesOfDay/MoviesOfDay.jsx
 import { useEffect, useState } from "react";
 import { fetchDayMovies } from "../../services/api";
 import MovieList from "../MovieList/MovieList";
