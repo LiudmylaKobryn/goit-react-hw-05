@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { NavLink, Outlet, useParams } from "react-router-dom";
+import { NavLink, Outlet, useParams, useLocation } from "react-router-dom";
 import { fetchMovieById } from "../../services/api";
 import s from "./MovieDetailsPage.module.css";
 
 const MovieDetailsPage = () => {
-  const params = useParams();
-  const [movie, setMovie] = useState();
+  const { movieId } = useParams();
+  const [movie, setMovie] = useState(null);
+  const location = useLocation();
+
   useEffect(() => {
-    fetchMovieById(params.movieId).then((data) => setMovie(data));
-  }, [params.movieId]);
+    fetchMovieById(movieId).then(setMovie).catch(console.error);
+  }, [movieId]);
 
   if (!movie) {
     return <p>Loading...</p>;
@@ -18,20 +20,24 @@ const MovieDetailsPage = () => {
 
   return (
     <div>
-      <div className={s.detailsWraper}>
-        <img src={posterUrl} alt="" />
+      <div className={s.detailsWrapper}>
+        <img src={posterUrl} alt={movie.title} />
         <div className={s.movieDetails}>
           <h2>{movie.original_title}</h2>
-          <p>User score: {Math.round((movie.vote_average * 100) / 10)} %</p>
-          <p>Overwie: {movie.overview}</p>
+          <p>User score: {Math.round((movie.vote_average * 100) / 10)}%</p>
+          <p>Overview: {movie.overview}</p>
         </div>
       </div>
       <ul>
         <li>
-          <NavLink to={`/movies/${params.movieId}/cast`}> Cast</NavLink>
+          <NavLink to={`/movies/${movieId}/cast`} state={{ from: location }}>
+            Cast
+          </NavLink>
         </li>
         <li>
-          <NavLink to={`/movies/${params.movieId}/reviews`}> Reviews</NavLink>
+          <NavLink to={`/movies/${movieId}/reviews`} state={{ from: location }}>
+            Reviews
+          </NavLink>
         </li>
       </ul>
       <Outlet />

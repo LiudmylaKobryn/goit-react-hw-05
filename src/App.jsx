@@ -1,5 +1,5 @@
+import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
-import { Routes, Route, Outlet } from "react-router-dom";
 import HomePage from "./pages/HomePage/HomePage";
 import MoviesPage from "./pages/MoviesPage/MoviesPage";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
@@ -18,8 +18,8 @@ const App = () => {
           <Route path="popularofday" element={<MoviesOfTheDay />} />
           <Route path="popularofweek" element={<MoviesOfTheWeek />} />
         </Route>
-        <Route path="/movies" element={<MoviesPage />} />
-        <Route path="/movies/:movieId" element={<MovieDetailsPage />}>
+        <Route path="movies" element={<MoviesPage />} />
+        <Route path="movies/:movieId" element={<MovieDetailsPage />}>
           <Route path="cast" element={<MovieCast />} />
           <Route path="reviews" element={<MovieReviews />} />
         </Route>

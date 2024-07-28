@@ -3,47 +3,67 @@ import axios from "axios";
 const API_KEY =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0Nzc5YTc5ZmVlMTM1ZjcwYTk0ZTdkYzZkNTQ3NWNhZSIsIm5iZiI6MTcyMjE2NjgyMS40Mzg1Niwic3ViIjoiNjZhNjJkMTg2MDkwMmYyZDNiZmM0ZjIwIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.qjSH1hJIr3B5WAy-uaYEbzDfKrpDzSe3imXYHMvSe90";
 
-export const fetchDayMovies = async () => {
-  const responce = await axios.get(
-    "https://api.themoviedb.org/3/trending/movie/day",
-    {
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-      },
-    }
-  );
-  return responce.data.results;
-};
+axios.defaults.baseURL = "https://api.themoviedb.org/3/";
 
-export const fetchWeekMovies = async () => {
-  const responce = await axios.get(
-    "https://api.themoviedb.org/3/trending/movie/week",
-    {
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-      },
-    }
-  );
-  return responce.data.results;
-};
-
-export const fetchMovieById = async (id) => {
-  const responce = await axios.get(`https://api.themoviedb.org/3/movie/${id}`, {
+const fetchDayMovies = async () => {
+  const { data } = await axios.get(`trending/movie/day`, {
     headers: {
       Authorization: `Bearer ${API_KEY}`,
     },
   });
-  return responce.data;
+  return data.results;
 };
 
-export const fetchMovieCast = async (id) => {
-  const responce = await axios.get(
-    `https://api.themoviedb.org/3/movie/${id}/reviews`,
-    {
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-      },
-    }
-  );
-  return responce.data;
+const fetchWeekMovies = async () => {
+  const { data } = await axios.get(`trending/movie/week`, {
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  });
+  return data.results;
+};
+
+const fetchMovieById = async (id) => {
+  const { data } = await axios.get(`movie/${id}`, {
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  });
+  return data;
+};
+
+const fetchMovieCast = async (id) => {
+  const { data } = await axios.get(`movie/${id}/credits`, {
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  });
+  return data;
+};
+
+const fetchMovieReviews = async (id) => {
+  const { data } = await axios.get(`movie/${id}/reviews`, {
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  });
+  return data;
+};
+
+const fetchMoviesByQuery = async (query) => {
+  const { data } = await axios.get(`search/movie?query=${query}`, {
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  });
+  return data.results;
+};
+
+export {
+  fetchDayMovies,
+  fetchWeekMovies,
+  fetchMovieById,
+  fetchMovieCast,
+  fetchMovieReviews,
+  fetchMoviesByQuery,
 };

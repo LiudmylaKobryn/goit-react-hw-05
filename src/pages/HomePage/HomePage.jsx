@@ -6,10 +6,10 @@ const HomePage = () => {
     <div>
       <ul className={s.buttonsList}>
         <li className={s.buttonsItem}>
-          <NavLink to="popularofday"> Movies of the Day</NavLink>
+          <NavLink to="popularofday">Movies of the Day</NavLink>
         </li>
         <li className={s.buttonsItem}>
-          <NavLink to="popularofweek"> Movies of the Week</NavLink>
+          <NavLink to="popularofweek">Movies of the Week</NavLink>
         </li>
       </ul>
       <Outlet />

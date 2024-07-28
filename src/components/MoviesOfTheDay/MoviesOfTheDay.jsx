@@ -1,18 +1,19 @@
+import { useEffect, useState } from "react";
 import { fetchDayMovies } from "../../services/api";
 import MovieList from "../MovieList/MovieList";
 
 const MoviesOfTheDay = () => {
   const [movies, setMovies] = useState([]);
   useEffect(() => {
-    try {
-      const getDayMovies = async () => {
+    const getDayMovies = async () => {
+      try {
         const movies = await fetchDayMovies();
         setMovies(movies);
-      };
-      getDayMovies();
-    } catch (error) {
-      console.log(error);
-    }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getDayMovies();
   }, []);
   return (
     <div>
