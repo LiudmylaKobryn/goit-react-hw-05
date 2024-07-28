@@ -1,19 +1,23 @@
-import MovieCard from "../MovieCard/MovieCard";
+// src/components/MovieList/MovieList.jsx
+import { Link, useLocation } from "react-router-dom";
 import s from "./MovieList.module.css";
-import { Link } from "react-router-dom";
 
 const MovieList = ({ movies }) => {
+  const location = useLocation();
+
   return (
     <div className={s.moviesWrapper}>
-      <ul className={s.moviesList}>
-        {movies.map((movie) => (
-          <li key={movie.id} className={s.moviesItem}>
-            <Link to={`/movies/${movie.id.toString()}`}>
-              <MovieCard movie={movie} />
-            </Link>
-          </li>
-        ))}
-      </ul>
+      {movies.map((movie) => (
+        <div key={movie.id} className={s.movieCard}>
+          <Link to={`/movies/${movie.id}`} state={{ from: location }}>
+            <h2>{movie.title}</h2>
+            <img
+              src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+              alt={movie.title}
+            />
+          </Link>
+        </div>
+      ))}
     </div>
   );
 };

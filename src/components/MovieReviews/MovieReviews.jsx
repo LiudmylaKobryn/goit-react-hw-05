@@ -14,11 +14,12 @@ const MovieReviews = () => {
   }, [movieId]);
 
   return (
-    <div className={s.reviewsWrapper}>
-      <ul className={s.reviewsList}>
+    <div className={s.movieReviews}>
+      <h2>Reviews</h2>
+      <ul>
         {reviews.map((review) => (
-          <li key={review.id} className={s.reviewsItem}>
-            <h3>Author: {review.author}</h3>
+          <li key={review.id}>
+            <p>{review.author}</p>
             <p>{review.content}</p>
           </li>
         ))}
