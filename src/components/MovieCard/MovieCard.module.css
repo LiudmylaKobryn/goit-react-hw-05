@@ -1,0 +1,44 @@
+.MovieCard {
+  width: 320px;
+  border: 1px gray solid;
+  position: relative;
+}
+
+.MovieCard:hover {
+  cursor: pointer;
+  box-shadow: 1px 1px 10px black;
+}
+
+.movieInfo {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-top: 1px gray solid;
+}
+
+.title {
+  font-size: 16px;
+  color: black;
+}
+
+.date {
+  font-size: 12px;
+  color: grey;
+}
+
+.rating {
+  width: 60px;
+  height: 60px;
+  background-color: red;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px green solid;
+  border-radius: 50%;
+
+  top: -30px;
+  left: 270px;
+
+  color: black;
+}

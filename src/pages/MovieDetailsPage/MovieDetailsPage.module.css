@@ -1,0 +1,12 @@
+.detailsWraper {
+  display: flex;
+  gap: 20px;
+  padding: 40px;
+}
+
+.movieDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  justify-content: center;
+}

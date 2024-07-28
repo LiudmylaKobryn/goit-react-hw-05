@@ -1,0 +1,28 @@
+.buttonsList {
+  display: flex;
+  gap: 30px;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px;
+}
+
+.buttonsItem a {
+  text-decoration: none;
+  color: rgb(48, 42, 42);
+  background-color: aquamarine;
+  border: none;
+  border-radius: 20px;
+  width: 180px;
+  height: 50px;
+  display: flex;
+  text-align: center;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonsItem a:hover {
+  box-shadow: 1px 1px 5px grey;
+  background-color: rgb(62, 175, 137);
+}
