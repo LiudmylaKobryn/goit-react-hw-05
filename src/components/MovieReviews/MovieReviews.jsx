@@ -1,30 +1,33 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchMovieReviews } from "../../services/api";
+import { getMovieReview } from "../../services/api";
+import Review from "../Review/Review";
 import s from "./MovieReviews.module.css";
 
 const MovieReviews = () => {
-  const { movieId } = useParams();
-  const [reviews, setReviews] = useState([]);
-
+  const [reviews, setReviews] = useState();
+  const { moviesId } = useParams();
   useEffect(() => {
-    fetchMovieReviews(movieId)
-      .then((data) => setReviews(data.results))
-      .catch(console.error);
-  }, [movieId]);
-
+    const fetchCredits = async () => {
+      const data = await getMovieReview(moviesId);
+      setReviews(data);
+    };
+    fetchCredits();
+  }, [moviesId]);
   return (
-    <div className={s.movieReviews}>
-      <h2>Reviews</h2>
-      <ul>
-        {reviews.map((review) => (
-          <li key={review.id}>
-            <p>{review.author}</p>
-            <p>{review.content}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul className={s.list}>
+      {reviews && reviews.length > 0
+        ? reviews.map((review) => {
+            return (
+              <Review
+                key={review.id}
+                content={review.content}
+                name={review.author_details.username}
+              />
+            );
+          })
+        : "No reviews yet"}
+    </ul>
   );
 };
 

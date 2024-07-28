@@ -1,58 +1,87 @@
-import { useEffect, useState } from "react";
-import {
-  useParams,
-  useLocation,
-  useNavigate,
-  Link,
-  Outlet,
-} from "react-router-dom";
-import { fetchMovieById } from "../../services/api";
+import { useEffect, useRef, useState } from "react";
+import { NavLink, Outlet, useLocation, useParams } from "react-router-dom";
+import { getMovieById } from "../../services/api";
 import s from "./MovieDetailsPage.module.css";
+import clsx from "clsx";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
-const MovieDetailsPage = () => {
-  const { movieId } = useParams();
-  const [movie, setMovie] = useState(null);
-  const location = useLocation();
-  const navigate = useNavigate();
+const MoviesDetailsPage = () => {
+  const [movie, setMovie] = useState({});
+  const [error, setError] = useState(false);
+  const [load, setLoad] = useState(false);
+  const { moviesId } = useParams();
 
   useEffect(() => {
-    fetchMovieById(movieId).then(setMovie).catch(console.error);
-  }, [movieId]);
+    try {
+      setLoad(true);
+      getMovieById(moviesId)
+        .then((response) => {
+          setMovie(response);
+          setLoad(false);
+        })
+        .catch(() => {
+          setError(true);
+          setLoad(false);
+        });
+    } catch {
+      setError(true);
+      setLoad(false);
+    }
+  }, [moviesId]);
 
-  const handleGoBack = () => {
-    navigate(location.state?.from ?? "/movies");
+  const makeLinkClass = ({ isActive }) => {
+    return clsx(s.link, isActive && s.isActive);
   };
 
-  if (!movie) {
-    return <p>Loading...</p>;
-  }
+  const location = useLocation();
+  const backLinkRef = useRef(location.state ?? "/movies");
 
   return (
-    <div className={s.movieDetailsPage}>
-      <button onClick={handleGoBack}>Go back</button>
-      <h1>{movie.title}</h1>
-      <p>{movie.overview}</p>
-      <img
-        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-        alt={movie.title}
-        className={s.moviePoster}
-      />
-
-      <ul>
-        <li>
-          <Link to="cast" state={{ from: location.state?.from }}>
-            Cast
-          </Link>
-        </li>
-        <li>
-          <Link to="reviews" state={{ from: location.state?.from }}>
-            Reviews
-          </Link>
-        </li>
-      </ul>
-      <Outlet />
+    <div>
+      {load && <div className="globalLoad">Loading...</div>}
+      {!load &&
+        (error ? (
+          <NotFoundPage />
+        ) : (
+          <div className={s.wrapper}>
+            <NavLink to={backLinkRef.current} className={s.btn}>
+              Back
+            </NavLink>
+            <div className={s.imgWrapper}>
+              <img
+                className={s.poster}
+                src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
+                alt={movie.original_title}
+              />
+            </div>
+            <div className={s.descr}>
+              <p className={s.title}>{movie.original_title}</p>
+              <ul className={s.genres}>
+                {movie.genres &&
+                  movie.genres.map((genre) => (
+                    <li className={s.genre} key={genre.id}>
+                      {genre.name}
+                    </li>
+                  ))}
+              </ul>
+              <p className={s.rating}>
+                Rating: <span>{movie.vote_average}</span>
+              </p>
+              <p className={s.overview}>{movie.overview}</p>
+            </div>
+            <div className={s.nav}>
+              <NavLink to="cast" className={makeLinkClass}>
+                Actors
+              </NavLink>
+              <NavLink to="reviews" className={makeLinkClass}>
+                Reviews
+              </NavLink>
+            </div>
+            <Outlet />
+          </div>
+        ))}
     </div>
   );
 };
 
-export default MovieDetailsPage;
+export default MoviesDetailsPage;

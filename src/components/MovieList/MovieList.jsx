@@ -1,26 +1,31 @@
 import { NavLink, useLocation } from "react-router-dom";
+import Movie from "../MovieCard/MovieCard";
 import s from "./MovieList.module.css";
 
 const MovieList = ({ movies }) => {
   const location = useLocation();
-
   return (
-    <ul className={s.moviesWrapper}>
-      {movies.map((movie) => (
-        <div key={movie.id} className={s.movieCard}>
+    <ul className={s.list}>
+      {movies.map((movie) => {
+        if (movie.poster_path == null) {
+          return;
+        }
+        return (
           <NavLink
             className={s.link}
+            key={movie.id}
+            state={location}
             to={`/movies/${movie.id}`}
-            state={{ from: location }}
           >
-            <img
-              src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-              alt={movie.title}
+            <Movie
+              release_date={movie.release_date}
+              poster_path={movie.poster_path}
+              original_title={movie.original_title}
+              movieId={movie.id}
             />
-            <h2 className="s.title">{movie.title}</h2>
           </NavLink>
-        </div>
-      ))}
+        );
+      })}
     </ul>
   );
 };

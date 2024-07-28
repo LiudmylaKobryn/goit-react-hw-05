@@ -1,27 +1,30 @@
-import s from "./Header.module.css";
 import { NavLink } from "react-router-dom";
+import s from "./Header.module.css";
 import clsx from "clsx";
 
-const activeLink = ({ isActive }) => {
-  return clsx(s.link, isActive && s.active);
-};
-
 const Header = () => {
+  const makeLinkClass = ({ isActive }) => {
+    return clsx(s.link, isActive && s.isActive);
+  };
+
+  const makeLogoClass = ({ isActive }) => {
+    return clsx(s.link, s.logo, isActive && s.isActive);
+  };
   return (
-    <header className={s.header}>
-      <ul className={s.navigationList}>
-        <li className={s.navigationItem}>
-          <NavLink to="/" className={activeLink}>
-            Home
+    <nav className={s.nav}>
+      <ul className={s.list}>
+        <li className={s.item}>
+          <NavLink className={makeLogoClass} to="/">
+            MovieList
           </NavLink>
         </li>
-        <li className={s.navigationItem}>
-          <NavLink to="/movies" className={activeLink}>
+        <li className={s.item}>
+          <NavLink className={makeLinkClass} to="/movies">
             Movies
           </NavLink>
         </li>
       </ul>
-    </header>
+    </nav>
   );
 };
 

@@ -1,29 +1,62 @@
 import { useState } from "react";
-import { fetchMoviesByQuery } from "../../services/api";
-import MovieList from "../../components/MovieList/MovieList";
 import s from "./MoviesPage.module.css";
+import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+import { getFilerMovies } from "../../services/api";
+import MovieList from "../../components/MovieList/MovieList";
 
 const MoviesPage = () => {
+  const [params, setParams] = useSearchParams();
   const [movies, setMovies] = useState([]);
-  const [query, setQuery] = useState("");
+  const [error, setError] = useState(false);
+  const [load, setLoad] = useState(false);
+
+  useEffect(() => {
+    const query = params.get("query") ?? "";
+    if (!query) {
+      return;
+    }
+    const fetchFilterMovie = async () => {
+      try {
+        setLoad(true);
+        const data = await getFilerMovies(query);
+        setMovies(data);
+        if (data.length == 0) {
+          setError(true);
+        }
+      } catch {
+        setError(true);
+      } finally {
+        setLoad(false);
+      }
+    };
+    fetchFilterMovie();
+  }, [params]);
 
   const handleSearch = (e) => {
+    const query = e.target.elements.query.value.trim().toLowerCase();
+    setMovies([]);
+    setError(false);
     e.preventDefault();
-    fetchMoviesByQuery(query).then(setMovies).catch(console.error);
+    setParams({ query: query });
   };
-
   return (
-    <div className={s.moviesPage}>
-      <form onSubmit={handleSearch}>
+    <div className={s.wrapper}>
+      <form onSubmit={handleSearch} className={s.form}>
         <input
+          name="query"
+          placeholder="Search film or author"
+          className={s.input}
           type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search movies"
         />
-        <button type="submit">Search</button>
+        <button className={s.button}>Search</button>
       </form>
-      <MovieList movies={movies} />
+      {load && <div className="globalLoad">Loading...</div>}
+      {error ? (
+        <div className="globalLoad">Not Found</div>
+      ) : (
+        movies.length > 0 && <MovieList movies={movies} />
+      )}
     </div>
   );
 };

@@ -1,18 +1,19 @@
+import { Link, NavLink, useLocation } from "react-router-dom";
 import s from "./MovieCard.module.css";
 
-const MovieCard = ({ movie }) => {
-  const posterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-  const rating = Math.round((100 * movie.vote_average) / 10);
+const Movie = ({ release_date, poster_path, original_title }) => {
+  const location = useLocation();
   return (
-    <div className={s.MovieCard}>
-      <img src={posterUrl} alt={movie.title} className={s.Poster} />
-      <div className={s.movieInfo}>
-        <h3 className={s.title}>{movie.title}</h3>
-        <p className={s.date}>{movie.release_date}</p>
-        <span className={s.rating}>{rating}%</span>
-      </div>
-    </div>
+    <li className={s.item}>
+      <img
+        className={s.img}
+        src={`https://image.tmdb.org/t/p/w300/${poster_path}`}
+        alt={original_title}
+      />
+      <p className={s.link}>{original_title}</p>
+      <p className={s.release}>{release_date}</p>
+    </li>
   );
 };
 
-export default MovieCard;
+export default Movie;
