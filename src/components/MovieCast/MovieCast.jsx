@@ -5,8 +5,9 @@ import Actor from "../Actor/Actor";
 import s from "./MovieCast.module.css";
 
 const MovieCast = () => {
-  const [credits, setCredits] = useState();
+  const [credits, setCredits] = useState([]);
   const { moviesId } = useParams();
+
   useEffect(() => {
     const fetchCredits = async () => {
       const data = await getMovieCast(moviesId);
@@ -17,20 +18,17 @@ const MovieCast = () => {
 
   return (
     <ul className={s.list}>
-      {credits &&
-        credits.map((credit) => {
-          if (credit.profile_path == null) {
-            return;
+      {credits.map((credit) => (
+        <Actor
+          key={credit.id}
+          imgUrl={
+            credit.profile_path
+              ? `https://image.tmdb.org/t/p/w200/${credit.profile_path}`
+              : null
           }
-
-          return (
-            <Actor
-              key={credit.id}
-              imgUrl={`https://image.tmdb.org/t/p/w200/${credit.profile_path}`}
-              name={credit.name}
-            />
-          );
-        })}
+          name={credit.name}
+        />
+      ))}
     </ul>
   );
 };
