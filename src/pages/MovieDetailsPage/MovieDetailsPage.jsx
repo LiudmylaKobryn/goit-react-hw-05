@@ -9,12 +9,12 @@ const MoviesDetailsPage = () => {
   const [movie, setMovie] = useState({});
   const [error, setError] = useState(false);
   const [load, setLoad] = useState(false);
-  const { moviesId } = useParams();
+  const { movieId } = useParams();
 
   useEffect(() => {
     try {
       setLoad(true);
-      getMovieById(moviesId)
+      getMovieById(movieId)
         .then((response) => {
           setMovie(response);
           setLoad(false);
@@ -27,7 +27,7 @@ const MoviesDetailsPage = () => {
       setError(true);
       setLoad(false);
     }
-  }, [moviesId]);
+  }, [movieId]);
 
   const makeLinkClass = ({ isActive }) => {
     return clsx(s.link, isActive && s.isActive);

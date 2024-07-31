@@ -6,7 +6,7 @@ import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
   const [load, setLoad] = useState(false);
 
   useEffect(() => {
@@ -15,18 +15,24 @@ const HomePage = () => {
         setLoad(true);
         const trandingMovies = await getTrendingMovies();
         setMovies(trandingMovies);
-      } catch {
-        setError(true);
+      } catch (err) {
+        setError(err.message);
       } finally {
         setLoad(false);
       }
     };
     fetchTrendingMovies();
   }, []);
+
   return (
     <div className={s.wrapper}>
       {load && <div className="globalLoad">Loading...</div>}
-      {!load && (error ? <NotFoundPage /> : <MovieList movies={movies} />)}
+      {!load &&
+        (error ? (
+          <NotFoundPage errorMessage={error} />
+        ) : (
+          <MovieList movies={movies} />
+        ))}
     </div>
   );
 };

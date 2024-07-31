@@ -22,8 +22,8 @@ const getFilerMovies = async (query) => {
   return responce.data.results;
 };
 
-const getMovieById = async (moviesId) => {
-  const responce = await axios.get(`movie/${moviesId}`, {
+const getMovieById = async (movieId) => {
+  const responce = await axios.get(`movie/${movieId}`, {
     headers: {
       Authorization: `Bearer ${API_KEY}`,
     },

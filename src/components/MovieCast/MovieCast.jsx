@@ -6,15 +6,28 @@ import s from "./MovieCast.module.css";
 
 const MovieCast = () => {
   const [credits, setCredits] = useState([]);
-  const { moviesId } = useParams();
+  const [error, setError] = useState(false);
+  const { movieId } = useParams();
 
   useEffect(() => {
     const fetchCredits = async () => {
-      const data = await getMovieCast(moviesId);
-      setCredits(data);
+      try {
+        const data = await getMovieCast(movieId);
+        setCredits(data);
+      } catch (err) {
+        setError(true);
+      }
     };
     fetchCredits();
-  }, [moviesId]);
+  }, [movieId]);
+
+  if (error) {
+    return (
+      <div className={s.error}>
+        Failed to load movie cast. Please try again later.
+      </div>
+    );
+  }
 
   return (
     <ul className={s.list}>
