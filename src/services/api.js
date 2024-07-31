@@ -31,15 +31,6 @@ const getMovieById = async (movieId) => {
   return responce.data;
 };
 
-const getMovieVideos = async (id) => {
-  const response = await axios.get(`/movie/${id}/videos`, {
-    headers: {
-      Authorization: `Bearer ${API_KEY}`,
-    },
-  });
-  return response.data.results;
-};
-
 const getMovieCast = async (id) => {
   const response = await axios.get(`/movie/${id}/credits`, {
     headers: {
@@ -62,7 +53,6 @@ export {
   getTrendingMovies,
   getFilerMovies,
   getMovieById,
-  getMovieVideos,
   getMovieCast,
   getMovieReview,
 };
